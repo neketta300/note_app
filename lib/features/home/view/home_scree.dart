@@ -1,0 +1,94 @@
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:notes_app/helpers/responsive_size.dart';
+
+import '../widgets/widgets.dart';
+
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xff252525),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // действие при нажатии
+        },
+        backgroundColor: Colors.pinkAccent,
+        elevation: 8,
+        shape: const CircleBorder(),
+        child: const Icon(Icons.add, color: Colors.white),
+      ),
+      body: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: ResponsiveSize.fromFigmaWidth(context, 21),
+        ).copyWith(top: ResponsiveSize.fromFigmaHeight(context, 15)),
+        child: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              backgroundColor: Colors.transparent,
+              title: Text(
+                'Noter',
+                style: GoogleFonts.nunito(
+                  fontSize: ResponsiveSize.responsiveFontSize(
+                    context,
+                    43,
+                  ),
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                ),
+              ),
+              floating: true,
+              actions: [
+                AppBarButton(icon: Icons.search, onTap: () {}),
+                SizedBox(
+                  width: ResponsiveSize.fromFigmaWidth(context, 21),
+                ),
+                AppBarButton(
+                  icon: Icons.info_outline_rounded,
+                  onTap: () {},
+                ),
+              ],
+            ),
+            SliverToBoxAdapter(
+              child: SizedBox(
+                height: ResponsiveSize.fromFigmaHeight(context, 21),
+              ),
+            ),
+            SliverList(
+              delegate: SliverChildBuilderDelegate((context, index) {
+                return Container(
+                  decoration: BoxDecoration(
+                    color: Colors.pinkAccent,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: ResponsiveSize.fromFigmaWidth(
+                      context,
+                      41,
+                    ),
+                    vertical: ResponsiveSize.fromFigmaHeight(
+                      context,
+                      21,
+                    ),
+                  ),
+                  child: Text(
+                    'My first note',
+                    style: GoogleFonts.nunito(
+                      fontSize: ResponsiveSize.responsiveFontSize(
+                        context,
+                        25,
+                      ),
+                      color: Colors.white,
+                    ),
+                  ),
+                );
+              }, childCount: 1),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
