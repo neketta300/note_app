@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:notes_app/features/home/view/home_screen.dart';
+import 'package:notes_app/features/create/view/create_screen.dart';
+
+import '../features/home/home.dart';
 
 class NoteApp extends StatelessWidget {
   const NoteApp({super.key});
@@ -10,12 +12,17 @@ class NoteApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
+        // scaffoldBackgroundColor: Color(0xff252525),
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.deepPurple,
         ),
       ),
       debugShowCheckedModeBanner: false,
-      home: const HomeScreen(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => HomeScreen(),
+        '/create_new_note': (context) => CreateScreen(),
+      },
     );
   }
 }

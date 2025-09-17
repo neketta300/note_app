@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:notes_app/helpers/responsive_size.dart';
 
-import '../widgets/widgets.dart';
+import '../../../widgets/widgets.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -10,13 +10,12 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xff252525),
+      backgroundColor: Color(0xff252525),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // действие при нажатии
+          Navigator.pushNamed(context, '/create_new_note');
         },
-        backgroundColor: Colors.pinkAccent,
-        elevation: 8,
+        backgroundColor: Color(0xff252525),
         shape: const CircleBorder(),
         child: const Icon(Icons.add, color: Colors.white),
       ),

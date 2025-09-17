@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../../helpers/helpers.dart';
+import '../../../helpers/helpers.dart';
 
 class NoteTile extends StatelessWidget {
   const NoteTile({
