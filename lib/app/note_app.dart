@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notes_app/features/create/view/create_screen.dart';
+import 'package:notes_app/features/search/view/search_screen.dart';
 
 import '../features/home/home.dart';
 
@@ -20,8 +21,9 @@ class NoteApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
-        '/': (context) => HomeScreen(),
-        '/create_new_note': (context) => CreateScreen(),
+        '/': (context) => const HomeScreen(),
+        '/create_new_note': (context) => const CreateScreen(),
+        '/search_note': (context) => const SearchScreen(),
       },
     );
   }

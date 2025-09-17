@@ -101,30 +101,30 @@ class CreateNoteTextField extends StatelessWidget {
     required this.hintSize,
     required this.textSize,
     required this.hintText,
-    this.validator,
     required this.textEditingController,
     required this.autofocus,
+    this.validator,
   });
   final TextEditingController textEditingController;
   final double hintSize;
   final double textSize;
   final String hintText;
-  final String? Function(String?)? validator;
   final bool autofocus;
+  final String? Function(String?)? validator;
   @override
   Widget build(BuildContext context) {
     return Theme(
       data: Theme.of(context).copyWith(
         textSelectionTheme: const TextSelectionThemeData(
           selectionColor: Color(0xff9A9A9A),
-          selectionHandleColor: Colors.white,
+          selectionHandleColor: Color(0xff9A9A9A),
         ),
       ),
       child: TextFormField(
         autofocus: autofocus,
         controller: textEditingController,
         validator: validator,
-        cursorColor: Colors.white,
+        cursorColor: Color(0xff9A9A9A),
         style: GoogleFonts.nunito(
           fontSize: ResponsiveSize.responsiveFontSize(
             context,

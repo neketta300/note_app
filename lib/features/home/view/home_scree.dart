@@ -40,7 +40,11 @@ class HomeScreen extends StatelessWidget {
               ),
               floating: true,
               actions: [
-                AppBarButton(icon: Icons.search, onTap: () {}),
+                AppBarButton(
+                  icon: Icons.search,
+                  onTap: () =>
+                      Navigator.pushNamed(context, '/search_note'),
+                ),
                 SizedBox(
                   width: ResponsiveSize.fromFigmaWidth(context, 21),
                 ),
@@ -57,31 +61,10 @@ class HomeScreen extends StatelessWidget {
             ),
             SliverList(
               delegate: SliverChildBuilderDelegate((context, index) {
-                return Container(
-                  decoration: BoxDecoration(
-                    color: Colors.pinkAccent,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: ResponsiveSize.fromFigmaWidth(
-                      context,
-                      41,
-                    ),
-                    vertical: ResponsiveSize.fromFigmaHeight(
-                      context,
-                      21,
-                    ),
-                  ),
-                  child: Text(
-                    'My first note',
-                    style: GoogleFonts.nunito(
-                      fontSize: ResponsiveSize.responsiveFontSize(
-                        context,
-                        25,
-                      ),
-                      color: Colors.white,
-                    ),
-                  ),
+                return NoteTile(
+                  color: Colors.purple,
+                  text: 'My first tile',
+                  onTap: () {},
                 );
               }, childCount: 1),
             ),
