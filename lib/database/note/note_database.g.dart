@@ -54,8 +54,20 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
     type: DriftSqlType.dateTime,
     requiredDuringInsert: true,
   );
+  static const VerificationMeta _colorValueMeta = const VerificationMeta(
+    'colorValue',
+  );
   @override
-  List<GeneratedColumn> get $columns => [id, title, body, createAt];
+  late final GeneratedColumn<int> colorValue = GeneratedColumn<int>(
+    'color_value',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: Constant(0xFFFFFFFF),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, title, body, createAt, colorValue];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -95,6 +107,12 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
     } else if (isInserting) {
       context.missing(_createAtMeta);
     }
+    if (data.containsKey('color_value')) {
+      context.handle(
+        _colorValueMeta,
+        colorValue.isAcceptableOrUnknown(data['color_value']!, _colorValueMeta),
+      );
+    }
     return context;
   }
 
@@ -120,6 +138,10 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
         DriftSqlType.dateTime,
         data['${effectivePrefix}create_at'],
       )!,
+      colorValue: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}color_value'],
+      )!,
     );
   }
 
@@ -134,11 +156,13 @@ class Note extends DataClass implements Insertable<Note> {
   final String title;
   final String body;
   final DateTime createAt;
+  final int colorValue;
   const Note({
     required this.id,
     required this.title,
     required this.body,
     required this.createAt,
+    required this.colorValue,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -147,6 +171,7 @@ class Note extends DataClass implements Insertable<Note> {
     map['title'] = Variable<String>(title);
     map['body'] = Variable<String>(body);
     map['create_at'] = Variable<DateTime>(createAt);
+    map['color_value'] = Variable<int>(colorValue);
     return map;
   }
 
@@ -156,6 +181,7 @@ class Note extends DataClass implements Insertable<Note> {
       title: Value(title),
       body: Value(body),
       createAt: Value(createAt),
+      colorValue: Value(colorValue),
     );
   }
 
@@ -169,6 +195,7 @@ class Note extends DataClass implements Insertable<Note> {
       title: serializer.fromJson<String>(json['title']),
       body: serializer.fromJson<String>(json['body']),
       createAt: serializer.fromJson<DateTime>(json['createAt']),
+      colorValue: serializer.fromJson<int>(json['colorValue']),
     );
   }
   @override
@@ -179,22 +206,32 @@ class Note extends DataClass implements Insertable<Note> {
       'title': serializer.toJson<String>(title),
       'body': serializer.toJson<String>(body),
       'createAt': serializer.toJson<DateTime>(createAt),
+      'colorValue': serializer.toJson<int>(colorValue),
     };
   }
 
-  Note copyWith({int? id, String? title, String? body, DateTime? createAt}) =>
-      Note(
-        id: id ?? this.id,
-        title: title ?? this.title,
-        body: body ?? this.body,
-        createAt: createAt ?? this.createAt,
-      );
+  Note copyWith({
+    int? id,
+    String? title,
+    String? body,
+    DateTime? createAt,
+    int? colorValue,
+  }) => Note(
+    id: id ?? this.id,
+    title: title ?? this.title,
+    body: body ?? this.body,
+    createAt: createAt ?? this.createAt,
+    colorValue: colorValue ?? this.colorValue,
+  );
   Note copyWithCompanion(NotesCompanion data) {
     return Note(
       id: data.id.present ? data.id.value : this.id,
       title: data.title.present ? data.title.value : this.title,
       body: data.body.present ? data.body.value : this.body,
       createAt: data.createAt.present ? data.createAt.value : this.createAt,
+      colorValue: data.colorValue.present
+          ? data.colorValue.value
+          : this.colorValue,
     );
   }
 
@@ -204,13 +241,14 @@ class Note extends DataClass implements Insertable<Note> {
           ..write('id: $id, ')
           ..write('title: $title, ')
           ..write('body: $body, ')
-          ..write('createAt: $createAt')
+          ..write('createAt: $createAt, ')
+          ..write('colorValue: $colorValue')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, title, body, createAt);
+  int get hashCode => Object.hash(id, title, body, createAt, colorValue);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -218,7 +256,8 @@ class Note extends DataClass implements Insertable<Note> {
           other.id == this.id &&
           other.title == this.title &&
           other.body == this.body &&
-          other.createAt == this.createAt);
+          other.createAt == this.createAt &&
+          other.colorValue == this.colorValue);
 }
 
 class NotesCompanion extends UpdateCompanion<Note> {
@@ -226,17 +265,20 @@ class NotesCompanion extends UpdateCompanion<Note> {
   final Value<String> title;
   final Value<String> body;
   final Value<DateTime> createAt;
+  final Value<int> colorValue;
   const NotesCompanion({
     this.id = const Value.absent(),
     this.title = const Value.absent(),
     this.body = const Value.absent(),
     this.createAt = const Value.absent(),
+    this.colorValue = const Value.absent(),
   });
   NotesCompanion.insert({
     this.id = const Value.absent(),
     required String title,
     required String body,
     required DateTime createAt,
+    this.colorValue = const Value.absent(),
   }) : title = Value(title),
        body = Value(body),
        createAt = Value(createAt);
@@ -245,12 +287,14 @@ class NotesCompanion extends UpdateCompanion<Note> {
     Expression<String>? title,
     Expression<String>? body,
     Expression<DateTime>? createAt,
+    Expression<int>? colorValue,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (title != null) 'title': title,
       if (body != null) 'body': body,
       if (createAt != null) 'create_at': createAt,
+      if (colorValue != null) 'color_value': colorValue,
     });
   }
 
@@ -259,12 +303,14 @@ class NotesCompanion extends UpdateCompanion<Note> {
     Value<String>? title,
     Value<String>? body,
     Value<DateTime>? createAt,
+    Value<int>? colorValue,
   }) {
     return NotesCompanion(
       id: id ?? this.id,
       title: title ?? this.title,
       body: body ?? this.body,
       createAt: createAt ?? this.createAt,
+      colorValue: colorValue ?? this.colorValue,
     );
   }
 
@@ -283,6 +329,9 @@ class NotesCompanion extends UpdateCompanion<Note> {
     if (createAt.present) {
       map['create_at'] = Variable<DateTime>(createAt.value);
     }
+    if (colorValue.present) {
+      map['color_value'] = Variable<int>(colorValue.value);
+    }
     return map;
   }
 
@@ -292,7 +341,8 @@ class NotesCompanion extends UpdateCompanion<Note> {
           ..write('id: $id, ')
           ..write('title: $title, ')
           ..write('body: $body, ')
-          ..write('createAt: $createAt')
+          ..write('createAt: $createAt, ')
+          ..write('colorValue: $colorValue')
           ..write(')'))
         .toString();
   }
@@ -315,6 +365,7 @@ typedef $$NotesTableCreateCompanionBuilder =
       required String title,
       required String body,
       required DateTime createAt,
+      Value<int> colorValue,
     });
 typedef $$NotesTableUpdateCompanionBuilder =
     NotesCompanion Function({
@@ -322,6 +373,7 @@ typedef $$NotesTableUpdateCompanionBuilder =
       Value<String> title,
       Value<String> body,
       Value<DateTime> createAt,
+      Value<int> colorValue,
     });
 
 class $$NotesTableFilterComposer extends Composer<_$NoteDatabase, $NotesTable> {
@@ -349,6 +401,11 @@ class $$NotesTableFilterComposer extends Composer<_$NoteDatabase, $NotesTable> {
 
   ColumnFilters<DateTime> get createAt => $composableBuilder(
     column: $table.createAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get colorValue => $composableBuilder(
+    column: $table.colorValue,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -381,6 +438,11 @@ class $$NotesTableOrderingComposer
     column: $table.createAt,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<int> get colorValue => $composableBuilder(
+    column: $table.colorValue,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$NotesTableAnnotationComposer
@@ -403,6 +465,11 @@ class $$NotesTableAnnotationComposer
 
   GeneratedColumn<DateTime> get createAt =>
       $composableBuilder(column: $table.createAt, builder: (column) => column);
+
+  GeneratedColumn<int> get colorValue => $composableBuilder(
+    column: $table.colorValue,
+    builder: (column) => column,
+  );
 }
 
 class $$NotesTableTableManager
@@ -437,11 +504,13 @@ class $$NotesTableTableManager
                 Value<String> title = const Value.absent(),
                 Value<String> body = const Value.absent(),
                 Value<DateTime> createAt = const Value.absent(),
+                Value<int> colorValue = const Value.absent(),
               }) => NotesCompanion(
                 id: id,
                 title: title,
                 body: body,
                 createAt: createAt,
+                colorValue: colorValue,
               ),
           createCompanionCallback:
               ({
@@ -449,11 +518,13 @@ class $$NotesTableTableManager
                 required String title,
                 required String body,
                 required DateTime createAt,
+                Value<int> colorValue = const Value.absent(),
               }) => NotesCompanion.insert(
                 id: id,
                 title: title,
                 body: body,
                 createAt: createAt,
+                colorValue: colorValue,
               ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
