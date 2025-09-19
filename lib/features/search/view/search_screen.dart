@@ -154,6 +154,7 @@ class SearchScreen extends StatelessWidget {
                       final note = notes[index];
                       final title = note.title;
                       final color = note.colorValue;
+                      final id = note.id;
                       return NoteTile(
                         color: color,
                         text: title,
@@ -166,7 +167,11 @@ class SearchScreen extends StatelessWidget {
                             ),
                           );
                         },
-                        onLongPress: () {},
+                        onSecondTap: () {
+                          context.read<NoteBloc>().add(
+                            DeleteNoteEvent(id: id),
+                          );
+                        },
                       );
                     },
                   ),

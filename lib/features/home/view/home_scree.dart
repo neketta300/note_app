@@ -22,12 +22,17 @@ class _HomeScreenState extends State<HomeScreen> {
         return Scaffold(
           backgroundColor: Color(0xff252525),
           floatingActionButton: FloatingActionButton(
+            elevation: 2,
             onPressed: () {
               Navigator.pushNamed(context, '/create_new_note');
             },
             backgroundColor: Color(0xff252525),
             shape: const CircleBorder(),
-            child: const Icon(Icons.add, color: Colors.white),
+            child: const Icon(
+              Icons.add,
+              color: Colors.white,
+              size: 38,
+            ),
           ),
           body: Padding(
             padding:
@@ -132,7 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       final title = note.title;
                       final id = note.id;
                       return NoteTile(
-                        onLongPress: () {
+                        onSecondTap: () {
                           context.read<NoteBloc>().add(
                             DeleteNoteEvent(id: id),
                           );
