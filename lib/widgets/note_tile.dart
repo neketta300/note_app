@@ -9,19 +9,25 @@ class NoteTile extends StatelessWidget {
     required this.color,
     required this.text,
     required this.onTap,
+    required this.onLongPress,
   });
 
-  final Color color;
+  final int color;
   final String text;
   final void Function() onTap;
+  final void Function() onLongPress;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onLongPress: onLongPress,
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: color,
+          color: Color(color),
           borderRadius: BorderRadius.circular(10),
+        ),
+        margin: EdgeInsets.only(
+          bottom: ResponsiveSize.fromFigmaHeight(context, 20),
         ),
         padding: EdgeInsets.symmetric(
           horizontal: ResponsiveSize.fromFigmaWidth(context, 41),
@@ -30,8 +36,9 @@ class NoteTile extends StatelessWidget {
         child: Text(
           text,
           style: GoogleFonts.nunito(
+            fontWeight: FontWeight.w500,
             fontSize: ResponsiveSize.responsiveFontSize(context, 25),
-            color: Colors.white,
+            color: Colors.black,
           ),
         ),
       ),
