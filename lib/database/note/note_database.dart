@@ -1,6 +1,5 @@
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
-import 'package:notes_app/repositories/note/model/note.dart';
 import 'package:path_provider/path_provider.dart';
 
 part 'note_database.g.dart';
@@ -38,9 +37,9 @@ class NoteDatabase extends _$NoteDatabase {
     notes,
   )..where((tbl) => tbl.id.equals(id))).getSingleOrNull();
 
-  Future<List<Note>> searchNotes(String query) {
-    final lowerQuery = query.toLowerCase();
-    return (select(notes)..where(
+  Future<List<Note>> searchNotes(String query) async {
+    final lowerQuery = '%${query.toLowerCase()}%';
+    return await (select(notes)..where(
           (tbl) =>
               tbl.title.lower().like(lowerQuery) |
               tbl.body.lower().like(lowerQuery),
