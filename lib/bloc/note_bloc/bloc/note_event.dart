@@ -46,6 +46,15 @@ class SearchNotesEvent extends NoteEvent {
 
 class StartSearchEvent extends NoteEvent {}
 
+class CheckNoteOnEditingEvent extends NoteEvent {
+  final Note note;
+
+  const CheckNoteOnEditingEvent({required this.note});
+
+  @override
+  List<Object> get props => super.props..add(note);
+}
+
 class _NotesUpdatedEvent extends NoteEvent {
   final List<Note> notes;
   const _NotesUpdatedEvent(this.notes);

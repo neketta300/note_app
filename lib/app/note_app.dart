@@ -25,7 +25,8 @@ class NoteApp extends StatelessWidget {
         initialRoute: '/',
         routes: {
           '/': (context) => HomeScreen(),
-          '/create_new_note': (context) => const CreateScreen(),
+          '/create_new_note': (context) =>
+              const CreateScreen(editStatus: true),
           '/search_note': (context) => SearchScreen(),
         },
       ),

@@ -148,8 +148,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (_) =>
-                                  CreateScreen(note: note),
+                              builder: (_) => CreateScreen(
+                                note: note,
+                                editStatus: false,
+                              ),
                             ),
                           );
                         },

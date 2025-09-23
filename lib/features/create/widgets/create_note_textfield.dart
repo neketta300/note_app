@@ -11,6 +11,7 @@ class CreateNoteTextField extends StatelessWidget {
     required this.hintText,
     required this.textEditingController,
     required this.autofocus,
+    required this.enabled,
     this.validator,
   });
   final TextEditingController textEditingController;
@@ -18,6 +19,7 @@ class CreateNoteTextField extends StatelessWidget {
   final double textSize;
   final String hintText;
   final bool autofocus;
+  final bool enabled;
   final String? Function(String?)? validator;
   @override
   Widget build(BuildContext context) {
@@ -29,6 +31,7 @@ class CreateNoteTextField extends StatelessWidget {
         ),
       ),
       child: TextFormField(
+        enabled: enabled,
         maxLines: null,
         minLines: 1,
         autofocus: autofocus,
